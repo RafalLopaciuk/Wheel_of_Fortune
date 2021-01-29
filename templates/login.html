@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    {% if not request.user.is_authenticated %}
+        <form class="form-group my-2 my-lg-0 ml-auto" method="post">
+            {% csrf_token %}
+            {{ form }}
+            <br />
+            <button type='submit' class="btn btn-outline-success my-2 my-sm-0">Zaloguj</button>
+        </form>
+    {% else %}
+        <div class="mr-auto">{{ user.get_username }} - jesteś już zalogowany</div><br />
+        <a class="btn btn-outline-success" href="{%url 'logout'%}" role="button">Wyloguj</a>
+    {% endif %}
+{% endblock %}

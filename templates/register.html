@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block content %}
+<form class="form-group my-2 my-lg-0 ml-auto" method="post">
+    {% csrf_token %}
+    {{ form }}
+    <br />
+    <button type='submit' class="btn btn-outline-success my-2 my-sm-0">Zarejestruj</button>
+</form>
+{% endblock %}
