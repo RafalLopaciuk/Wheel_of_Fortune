@@ -51,3 +51,10 @@ def appReg(request):
         return render(request, 'register.html', {'form': form})
     else:
         return redirect('/login')
+
+
+def accountDetails(request):
+    if not request.user.is_authenticated:
+        return redirect('/')
+    else:
+        return render(request, 'account.html')

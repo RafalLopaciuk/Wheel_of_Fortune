@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block content %}
     {% if not request.user.is_authenticated %}
-    <div class="mx-auto" style="width: 300px;">
+    <div class="mx-auto" style="width: 385px;">
         <h1 class="display-4">KOŁO FORTUNY</h1>
         <br />
         <a href="{% url 'login' %}" type="button" class="btn btn-primary btn-lg btn-block">Logowanie</a>
@@ -11,7 +11,8 @@
         <div class="mx-auto">
             Koło fortuny v0.1
             <a style="float: right;" class="btn btn-outline-primary" href="{% url 'logout' %}" role="button">Wyloguj się</a>
-            <h2>Witaj {{ user.get_username }}</h2>
+            <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="{% url 'account' %}" role="button">Profil</a>
+            <h2>Witaj {{ user.username}}</h2>
         </div>
     {% endif %}
 {% endblock %}
