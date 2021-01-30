@@ -4,11 +4,14 @@
     <div class="mx-auto" style="width: 300px;">
         <h1 class="display-4">KOŁO FORTUNY</h1>
         <br />
-        <a href="\login" type="button" class="btn btn-primary btn-lg btn-block">Logowanie</a>
-        <a href="\register" type="button" class="btn btn-primary btn-lg btn-block">Rejestracja</a>
+        <a href="{% url 'login' %}" type="button" class="btn btn-primary btn-lg btn-block">Logowanie</a>
+        <a href="{% url 'register' %}" type="button" class="btn btn-primary btn-lg btn-block">Rejestracja</a>
     </div>
     {% else %}
-        <div class="mx-auto">Jesteś zalogowany - {{ user.get_username }}</div>
-        <a class="btn btn-outline-success" href="{% url 'logout' %}" role="button">Wyloguj</a>
+        <div class="mx-auto">
+            Koło fortuny v0.1
+            <a style="float: right;" class="btn btn-outline-primary" href="{% url 'logout' %}" role="button">Wyloguj się</a>
+            <h2>Witaj {{ user.get_username }}</h2>
+        </div>
     {% endif %}
 {% endblock %}

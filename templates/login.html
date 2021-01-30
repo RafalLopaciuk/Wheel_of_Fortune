@@ -1,14 +1,13 @@
 {% extends 'base.html' %}
 {% block content %}
-    {% if not request.user.is_authenticated %}
+    <div class="mx-auto" style="width: 300px;">
         <form class="form-group my-2 my-lg-0 ml-auto" method="post">
             {% csrf_token %}
             {{ form }}
             <br />
-            <button type='submit' class="btn btn-outline-success my-2 my-sm-0">Zaloguj</button>
+            <button type='submit' class="btn btn-outline-success my-2 my-sm-0">ZALOGUJ SIĘ</button>
+            <button type='reset' class="btn btn-outline-secondary my-2 my-sm-0">Reset</button>
+            <a class="btn btn-outline-secondary" href="{%url 'index'%}" role="button">Powrót</a>
         </form>
-    {% else %}
-        <div class="mr-auto">{{ user.get_username }} - jesteś już zalogowany</div><br />
-        <a class="btn btn-outline-success" href="{%url 'logout'%}" role="button">Wyloguj</a>
-    {% endif %}
+    </div>
 {% endblock %}

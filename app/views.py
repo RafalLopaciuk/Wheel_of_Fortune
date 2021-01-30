@@ -5,8 +5,8 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 
+
 def index(request, param=""):
-    print(request.user.is_authenticated)
     if request.user.is_authenticated:
         return render(request, 'index.html')
     else:
@@ -26,7 +26,6 @@ def appLogin(request):
             else:
                 messages.warning(request, "Wprowadzono bledne dane")
     if request.user.is_authenticated:
-        # return render(request, 'login.html')
         return redirect('/')
     else:
         form = LoginForm()
