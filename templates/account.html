@@ -5,11 +5,11 @@
         <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="{% url 'index' %}" role="button">Strona główna</a>
         <br />
         <div >
-            <b>Login:</b> {{ player.user.username }} <br />
-            <b>Email:</b> {{ player.user.email }} <br />
-            <b>Rozegrane gry:</b> {{ player.games_played }} <br />
-            <b>Wygrane gry:</b> {{ player.games_won }} <br />
-            <b>Suma wygranych:</b> {{ player.amount_of_money }} <br />
+            <b>Login:</b> &nbsp; {{ player.user.username }} <br />
+            <b>Email:</b> &nbsp; {{ player.user.email }} <br /><br />
+            <b>Rozegrane gry:</b> &nbsp; {{ player.games_played }} <br />
+            <b>Wygrane gry:</b> &nbsp; {{ player.games_won }} <br />
+            <b>Suma wygranych:</b> &nbsp; {{ player.amount_of_money }} $<br />
         </div>
     {% endif %}
 {% endblock %}

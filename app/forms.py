@@ -14,3 +14,4 @@ class RegisterForm(forms.Form):
     login = forms.CharField(widget=loginClass, label="Login:", max_length=50, required=True)
     email = forms.CharField(widget=loginClass, label="Email:", max_length=50, required=True)
     password = forms.CharField(widget=passwordClass, label="Hasło:", max_length=50, required=True)
+

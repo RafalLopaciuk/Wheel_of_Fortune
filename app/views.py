@@ -4,14 +4,16 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
-from .models import Player
+from .models import Player, Server
+from django.forms.models import model_to_dict
 
 
-def index(request, param=""):
+def index(request):
     if request.user.is_authenticated:
-        return render(request, 'index.html')
+        servers = Server.objects.all().order_by('-create_date')
+        return render(request, 'index.html', {"servers": servers})
     else:
-        return render(request, 'index.html', {"param": param})
+        return render(request, 'index.html')
 
 
 def appLogin(request):
@@ -62,3 +64,26 @@ def accountDetails(request):
     else:
         player = Player.objects.get(user=request.user)
         return render(request, 'account.html', {'player': player})
+
+
+def createServer(request):
+    if request.method == "POST":
+        form = RegisterForm(request.POST)
+        if form.is_valid():
+            username = request.POST["login"]
+            email = request.POST["email"]
+            password = request.POST["password"]
+            user, created = User.objects.get_or_create(username=username, email=email)
+            if created:
+                user.set_password(password)
+                user.save()
+                Player.objects.create(user=user)
+                messages.success(request, "Udalo sie stworzyc nowe konto")
+                return redirect('/login')
+            else:
+                messages.warning(request, "Uzytkownik istnieje w bazie")
+    if not request.user.is_authenticated:
+        form = RegisterForm()
+        return render(request, 'register.html', {'form': form})
+    else:
+        return redirect('/')

@@ -14,5 +14,37 @@
             <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="{% url 'account' %}" role="button">Profil</a>
             <h2>Witaj {{ user.username}}</h2>
         </div>
+        <br />
+        <div class="mx-auto">
+            <h4>Dostępne serwery gry:</h4>
+            <table class="table">
+                <tr>
+                    <th>#</th>
+                    <th>Nazwa:</th>
+                    <th>Założyciel:</th>
+                    <th>Data założenia:</th>
+                    <th>Liczba graczy:</th>
+                    <th>
+                        <a style="float: right;" class="btn btn-outline-primary" href="" role="button">Stwórz gre</a>
+                        <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="" role="button">Odśwież</a>
+                    </th>
+                </tr>
+                {% for server in servers %}
+                    <tr>
+                        <td>{{ forloop.counter }}</td>
+                        <td>{{ server.name }}</td>
+                        <td>{{ server.user_create.username }}</td>
+                        <td>{{ server.create_date }}</td>
+                        <td>{{ server.count_players }} / {{ server.max_players }}</td>
+                        <td>
+                            <a style="float: right;" class="btn btn-outline-success" href="" role="button">Dołącz</a>
+                            {% if server.user_create == user %}
+                                <a style="float: right; margin-right: 1px" class="btn btn-outline-danger" href="" role="button">Usuń</a>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </table>
+        </div>
     {% endif %}
 {% endblock %}
