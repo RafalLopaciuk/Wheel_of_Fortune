@@ -4,6 +4,7 @@ from django.contrib import messages
 from django.contrib.auth import authenticate, login
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
+from .models import Player
 
 
 def index(request, param=""):
@@ -43,18 +44,21 @@ def appReg(request):
             if created:
                 user.set_password(password)
                 user.save()
+                Player.objects.create(user=user)
                 messages.success(request, "Udalo sie stworzyc nowe konto")
+                return redirect('/login')
             else:
                 messages.warning(request, "Uzytkownik istnieje w bazie")
     if not request.user.is_authenticated:
         form = RegisterForm()
         return render(request, 'register.html', {'form': form})
     else:
-        return redirect('/login')
+        return redirect('/')
 
 
 def accountDetails(request):
     if not request.user.is_authenticated:
         return redirect('/')
     else:
-        return render(request, 'account.html')
+        player = Player.objects.get(user=request.user)
+        return render(request, 'account.html', {'player': player})
