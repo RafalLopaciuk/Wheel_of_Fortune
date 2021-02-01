@@ -25,7 +25,7 @@
                     <th>Data założenia:</th>
                     <th>Liczba graczy:</th>
                     <th>
-                        <a style="float: right;" class="btn btn-outline-primary" href="" role="button">Stwórz gre</a>
+                        <a style="float: right;" class="btn btn-outline-primary" href="{% url 'create_server' %}" role="button">Stwórz gre</a>
                         <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="" role="button">Odśwież</a>
                     </th>
                 </tr>
@@ -37,9 +37,11 @@
                         <td>{{ server.create_date }}</td>
                         <td>{{ server.count_players }} / {{ server.max_players }}</td>
                         <td>
-                            <a style="float: right;" class="btn btn-outline-success" href="" role="button">Dołącz</a>
-                            {% if server.user_create == user %}
-                                <a style="float: right; margin-right: 1px" class="btn btn-outline-danger" href="" role="button">Usuń</a>
+                            {% if server.count_players != server.max_players %}
+                                <a style="float: right;" class="btn btn-outline-success" href="" role="button">Dołącz</a>
+                                {% if server.user_create == user %}
+                                    <a style="float: right; margin-right: 1px" class="btn btn-outline-danger" href="{% url 'delete_server' %}?link={{ server.link_string }}" role="button">Usuń</a>
+                                {% endif %}
                             {% endif %}
                         </td>
                     </tr>

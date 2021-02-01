@@ -1,5 +1,7 @@
+import string
 import uuid
 from datetime import datetime
+import random
 
 from django.db import models
 from django.contrib.auth.models import User
@@ -11,7 +13,7 @@ class Server(models.Model):
     name = models.CharField(max_length=100, null=False)
     create_date = models.DateTimeField(auto_now=True)
     activate = models.BooleanField(default=True, null=False)
-    link_string = models.CharField(max_length=100, null=False, default="")
+    link_string = models.CharField(default=''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(100)), max_length=100, null=False)
     max_players = models.IntegerField(default=3, null=False)
     count_players = models.IntegerField(default=0, null=False)
     user_create = models.ForeignKey(User, on_delete=models.CASCADE)

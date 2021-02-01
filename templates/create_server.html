@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="mx-auto" style="width: 300px;">
+        <form class="form-group my-2 my-lg-0 ml-auto" method="post">
+            {% csrf_token %}
+            <h3>Tworzenie nowej gry</h3><br/>
+            {{ form }}
+            <br />
+            <button type='submit' class="btn btn-outline-success my-2 my-sm-0">STWÓRZ GRE</button>
+            <button type='reset' class="btn btn-outline-secondary my-2 my-sm-0">Reset</button>
+            <a class="btn btn-outline-secondary" href="{%url 'index'%}" role="button">Powrót</a>
+        </form>
+    </div>
+{% endblock %}

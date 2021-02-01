@@ -15,3 +15,9 @@ class RegisterForm(forms.Form):
     email = forms.CharField(widget=loginClass, label="Email:", max_length=50, required=True)
     password = forms.CharField(widget=passwordClass, label="Hasło:", max_length=50, required=True)
 
+
+class ServerForm(forms.Form):
+    textClass = forms.TextInput(attrs={"class": "form-control"})
+    intClass = forms.NumberInput(attrs={"class": "form-control"})
+    name = forms.CharField(widget=textClass, label="Nazwa gry:", max_length=100, required=True)
+    max_players = forms.IntegerField(widget=intClass, label="Liczba graczy", required=True)
