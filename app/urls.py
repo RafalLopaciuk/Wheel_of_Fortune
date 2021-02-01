@@ -11,5 +11,6 @@ urlpatterns = [
     path('account/', views.accountDetails, name="account"),
     path('createserver/', views.createServer, name="create_server"),
     path('deleteserver/', views.deleteServer, name="delete_server"),
-    path('game/', views.game, name='game'),
+    path('join/', views.game, name='game'),
+    path('game/<str:room_name>/', views.game_room, name='room'),
 ]

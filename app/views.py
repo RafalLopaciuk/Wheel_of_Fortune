@@ -81,7 +81,7 @@ def createServer(request):
                 max_players = 6
             Server.objects.create(name=name, max_players=max_players, user_create=request.user,
                                   link_string=''.join(
-                                      random.choice(string.ascii_lowercase + string.digits) for _ in range(100)))
+                                      random.choice(string.ascii_lowercase + string.digits) for _ in range(50)))
             messages.success(request, "Udalo sie stworzyc nową gre")
             return redirect('/')
     if request.user.is_authenticated:
@@ -103,17 +103,27 @@ def deleteServer(request):
 def game(request):
     if not request.user.is_authenticated:
         return redirect('/')
-    # if request.GET and request.GET.get('link'):
-    #     try:
-    #         server = Server.objects.get(link_string=request.GET.get('link'))
-    #     except Server.DoesNotExist:
-    #         return redirect('/')
-    #     player = Player.objects.get(user=request.user)
-    #     if player.active_game is not server:
-    #         if server.count_players == server.max_players:
-    #             return redirect('/')
-    #         server.count_players += 1
-    #         player.active_game = server
+    if request.GET and request.GET.get('link'):
+        try:
+            server = Server.objects.get(link_string=request.GET.get('link'))
+        except Server.DoesNotExist:
+            return redirect('/')
+        player = Player.objects.get(user=request.user)
+        if player.active_game != server:
+            if server.count_players == server.max_players:
+                messages.warning(request, "Gra do której próbowałeś dołączyć jest już pełna.")
+                return redirect('/')
+            server.count_players += 1
+            player.active_game = server
+            server.save()
+            player.save()
+        return redirect('/game/' + server.link_string)
     return redirect('/')
+
+
+def game_room(request, room_name):
+    return render(request, 'game_room.html', {
+        'room_name': room_name
+    })
 
 

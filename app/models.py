@@ -29,7 +29,7 @@ class Player(models.Model):
     games_played = models.IntegerField(default=0)
     games_won = models.IntegerField(default=0)
     amount_of_money = models.FloatField(default=0.0)
-    active_game = models.OneToOneField(
+    active_game = models.ForeignKey(
         Server,
         on_delete=models.SET_NULL,
         default=None,
