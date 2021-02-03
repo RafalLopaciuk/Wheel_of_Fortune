@@ -4,12 +4,12 @@
     <div class="mx-auto" style="width: 385px;">
         <h1 class="display-4">KOŁO FORTUNY</h1>
         <br />
-        <a href="{% url 'login' %}" type="button" class="btn btn-primary btn-lg btn-block">Logowanie</a>
-        <a href="{% url 'register' %}" type="button" class="btn btn-primary btn-lg btn-block">Rejestracja</a>
+        <a href="{% url 'login' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">Logowanie</a>
+        <a href="{% url 'register' %}" type="button" class="btn btn-outline-primary btn-lg btn-block">Rejestracja</a>
     </div>
     {% else %}
         <div class="mx-auto">
-            Koło fortuny v0.1
+            Koło fortuny beta v1.0
             <a style="float: right;" class="btn btn-outline-primary" href="{% url 'logout' %}" role="button">Wyloguj się</a>
             <a style="float: right; margin-right: 1px" class="btn btn-outline-secondary" href="{% url 'account' %}" role="button">Profil</a>
             <h2>Witaj {{ user.username}}</h2>
@@ -22,7 +22,7 @@
                     <th>#</th>
                     <th>Nazwa:</th>
                     <th>Założyciel:</th>
-                    <th>Data założenia:</th>
+                    <th>Ostatnia aktywność:</th>
                     <th>Liczba graczy:</th>
                     <th>
                         <a style="float: right;" class="btn btn-outline-primary" href="{% url 'create_server' %}" role="button">Stwórz gre</a>
@@ -37,11 +37,17 @@
                         <td>{{ server.create_date }}</td>
                         <td>{{ server.count_players }} / {{ server.max_players }}</td>
                         <td>
-                            {% if server.count_players != server.max_players %}
+                            {% if server.user_create == request.user %}
+                                 <a style="float: right;" class="btn btn-outline-success" href="/game/{{ server.link_string }}" role="button">>> WRÓĆ DO GRY</a>
+                            {% elif server.ended %}
+                                <i>Gra skończona</i>
+                            {% elif server.started %}
+                                <i>Rozgrywka w toku</i>
+                            {% elif server.count_players != server.max_players and not owner %}
                                 <a style="float: right;" class="btn btn-outline-success" href="/join?link={{ server.link_string }}" role="button">Dołącz</a>
-                                {% if server.user_create == user %}
-                                    <a style="float: right; margin-right: 1px" class="btn btn-outline-danger" href="{% url 'delete_server' %}?link={{ server.link_string }}" role="button">Usuń</a>
-                                {% endif %}
+                            {% endif %}
+                            {% if server.user_create == user %}
+                                <a style="float: right; margin-right: 1px" class="btn btn-outline-danger" href="{% url 'delete_server' %}?link={{ server.link_string }}" role="button">Usuń</a>
                             {% endif %}
                         </td>
                     </tr>

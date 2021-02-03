@@ -9,12 +9,21 @@ from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from .models import Player, Server
 from django.forms.models import model_to_dict
+from .utils import game_starto
+
+from asgiref.sync import async_to_sync
 
 
 def index(request):
     if request.user.is_authenticated:
         servers = Server.objects.all().order_by('-create_date')
-        return render(request, 'index.html', {"servers": servers})
+        owner = False
+        try:
+            Server.objects.get(user_create=request.user)
+            owner = True
+        except:
+            pass
+        return render(request, 'index.html', {"servers": servers, "owner": owner})
     else:
         return render(request, 'index.html')
 
@@ -75,18 +84,29 @@ def createServer(request):
         if form.is_valid():
             name = request.POST["name"]
             max_players = request.POST["max_players"]
+            max_round = request.POST["rounds"]
             if int(max_players) < 1:
                 max_players = 1
-            if int(max_players) > 6:
-                max_players = 6
-            Server.objects.create(name=name, max_players=max_players, user_create=request.user,
-                                  link_string=''.join(
-                                      random.choice(string.ascii_lowercase + string.digits) for _ in range(50)))
+            if int(max_players) > 10:
+                max_players = 10
+            if int(max_round) < 1:
+                max_round = 1
+            if int(max_round) > 10:
+                max_round = 10
+            link = ''.join(random.choice(string.ascii_lowercase + string.digits) for _ in range(50))
+            Server.objects.create(name=name, max_players=max_players, user_create=request.user, max_rounds=max_round,
+                                  link_string=link)
             messages.success(request, "Udalo sie stworzyc nową gre")
-            return redirect('/')
+            return redirect('/join?link=' + link)
     if request.user.is_authenticated:
-        form = ServerForm()
-        return render(request, 'create_server.html', {'form': form})
+        try:
+            print(Server.objects.get(user_create=request.user))
+            messages.warning(request, "Masz już stworzoną gre! Nie możesz zrobić nowej dopuki wcześniejsza wciąż jest aktywna.")
+            return redirect('/')
+        except:
+            print("123")
+            form = ServerForm()
+            return render(request, 'create_server.html', {'form': form})
     else:
         return redirect('/')
 

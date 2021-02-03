@@ -20,4 +20,5 @@ class ServerForm(forms.Form):
     textClass = forms.TextInput(attrs={"class": "form-control"})
     intClass = forms.NumberInput(attrs={"class": "form-control"})
     name = forms.CharField(widget=textClass, label="Nazwa gry:", max_length=100, required=True)
-    max_players = forms.IntegerField(widget=intClass, label="Liczba graczy", required=True)
+    max_players = forms.IntegerField(widget=intClass, label="Maksymalna liczba graczy:", required=True)
+    rounds = forms.IntegerField(widget=intClass, label="Liczba rund:", required=True)
